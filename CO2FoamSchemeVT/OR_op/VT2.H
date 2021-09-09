@@ -3,18 +3,18 @@
    scalar rho_inlet = 37.89; //582.22; //7.06;
 
 // Hot outlet
-   scalar e_outleth = -71306.8; //-196343.42; //-60239.6;
-   scalar rho_outleth = 32.34; //6.97;
+//   scalar e_outleth = -71306.8; //-196343.42; //-60239.6;
+//   scalar rho_outleth = 32.34; //6.97;
 
 // Cold outlet
-   scalar e_outletc = -73894.6; //-196343.42; //-60239.6;
-   scalar rho_outletc = 33.12; //6.97;
+//   scalar e_outletc = -73894.6; //-196343.42; //-60239.6;
+//   scalar rho_outletc = 33.12; //6.97;
 
 // Vortex tube specific lengths
    scalar xColdIn  = 0.01647;
    scalar xHotIn   = xColdIn+0.0009;
    scalar xHotOut  = xHotIn+0.0816;
-   scalar rBaseNozzle = 0.00414;
+//   scalar rBaseNozzle = 0.00414;
 
 // BC conditions
    scalar p_inlet = 1.883e6; //10e6;
@@ -26,14 +26,12 @@
    scalar p_outletc  = 1.641e6;
    scalar T_outletc  = 290.05;
 
-   scalar velx = 10.0;
-
 // Characteristic length
    scalar lx = xHotOut;
    
 // Relaxation factor
-   scalar relaxHot = 0.5;
-   scalar relaxCold = 50;
+   scalar relaxHot = 5;
+   scalar relaxCold = 5;
 //
 //   
 Info<< "\n***************OR_vortextube Operating Condition******************\n" << endl;

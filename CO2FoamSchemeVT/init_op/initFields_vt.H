@@ -24,7 +24,7 @@ double cv_out;
 double vp_out;
 double dedr_out;
 double lambda_out;
-double dummy;
+//double dummy;
 int    flag;
 double vis;
 const double e_ref=5.0e5; //avoir energie interne positive
@@ -38,8 +38,8 @@ if (initial_time < 0.00000001)
 {
 //Info << "\n Smooth initial field \n" << endl;
 Info << "\n Fluent initial field \n" << endl;
-   const volVectorField&     center = mesh.C();
-   scalar xcell;
+//   const volVectorField&     center = mesh.C();
+//   scalar xcell;
 
 /*   scalar e_in   = e_inlet + e_ref;
      scalar e_outh = e_outleth + e_ref;

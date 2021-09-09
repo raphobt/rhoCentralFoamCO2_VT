@@ -1,4 +1,3 @@
-#include <cmath>
 Info<< "\nUpdating inlet/outlet conditions" << endl;
 rho.correctBoundaryConditions();
 U.correctBoundaryConditions();
@@ -19,7 +18,7 @@ scalar dp_dv_u, dp_du_v;
 //
 label     adj1_x=0;//,adj2_x=0;
 scalar dt = runTime.deltaTValue();
-scalar p_aver=0, numc=0, numh=0, mfrik=0, mfri=0, mfrh=0, mfrc=0;
+scalar p_aver=0, num=0, super=0, num2=0;
 //
 //
 //
@@ -34,10 +33,6 @@ forAll (mesh.boundaryMesh(),ipatch)
 
        if ( BCName == "hotOutlet" ) 
        {
-        //mfrh = fabs( mfrh + gSum(phi.boundaryField()[ipatch]) ); //mass flow rate
-       
-        //mfr = gSum(rho.boundaryField()[ipatch]*mag(U.boundaryField()[ipatch])*mesh.magSf().boundaryField()[ipatch]);
-        
         if ( BCTypePhysical == "NSCBC" )
         {
           // find max mach (defined in initFields.H)
@@ -92,7 +87,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                  scalar rhoE_i   = rhoE[bcCell];
                  scalar M_i      = mag(U[bcCell])/c[bcCell];
                  p_aver          = p_i + p_aver;
-                 numh            = 1.0 + numh;
+                 num             = 1.0 + num;
 
               /* scalar cbc      = c.boundaryFieldRef()[ipatch][iface];
                  scalar mbc      = mag(U.boundaryFieldRef()[ipatch][iface])/cbc;
@@ -109,7 +104,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                  // if (mbc<1.0)
                  {  
                   // scalar K_i      = relax*0.25*c_i*(1.0-M_max*M_max)/lx;
-                     scalar K_i      = relaxHot*0.25*c_i*(1.0-M_i*M_i)/lx;
+                     scalar K_i      = relax*0.25*c_i*(1.0-M_i*M_i)/lx;
                  
                      // characteristic waves
                  
@@ -178,12 +173,11 @@ forAll (mesh.boundaryMesh(),ipatch)
                   */
                  } //endif sub/supersonic
                  
-          } //end hot outlet NSCBC cells loop
+              } //end hot outlet cells loop
                     
-         // Info << "hot outlet NSCBC "<<numh<<" "<<p_aver/(1e-8+numh)<<" "<<M_max<<endl;
-        //  Info << "hot outlet mass flow rate "<< mfrh <<endl;
+              Info << "hot outlet NSCBC "<< p_aver<<" "<<num<<" "<<M_max<<endl;
               
-   } //end hot outlet NSCBC type treatment
+           } //end hot outlet NSCBC type treatment
             
     /* rhoU.boundaryFieldRef()[ipatch] = rho.boundaryField()[ipatch]*U.boundaryField()[ipatch];
        rhoE.boundaryFieldRef()[ipatch] = rho.boundaryField()[ipatch]*
@@ -225,8 +219,6 @@ forAll (mesh.boundaryMesh(),ipatch)
        
        if ( BCName == "coldOutlet" ) 
        {
-        // mfrc = fabs( mfrc + gSum(phi.boundaryField()[ipatch]) ); //mass flow rate
-
         if ( BCTypePhysical == "NSCBC" )
         {
           // find max mach (defined in initFields.H)
@@ -257,7 +249,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                            xmin_adj = x_adj;
                         }
                  }
-                 //Info << C[adj1_x].x() << endl;
+                 //Info << adj1_x << endl;
                  
                  //compute gradient at boundary cells
                  
@@ -281,7 +273,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                  scalar rhoE_i   = rhoE[bcCell];
                  scalar M_i      = mag(U[bcCell])/c[bcCell];
                  p_aver          = p_i + p_aver;
-                 numc            = 1.0 + numc;
+                 num             = 1.0 + num;
 
               /* scalar cbc      = c.boundaryFieldRef()[ipatch][iface];
                  scalar mbc      = mag(U.boundaryFieldRef()[ipatch][iface])/cbc;
@@ -298,7 +290,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                  // if (mbc<1.0)
                  {  
                   // scalar K_i      = relax*0.25*c_i*(1.0-M_max*M_max)/lx;
-                     scalar K_i      = relaxCold*0.25*c_i*(1.0-M_i*M_i)/lx;
+                     scalar K_i      = relax*0.25*c_i*(1.0-M_i*M_i)/lx;
                  
                      // characteristic waves
                  
@@ -367,12 +359,11 @@ forAll (mesh.boundaryMesh(),ipatch)
                   */
                  } //endif sub/supersonic
                  
-       } //end cold outlet cells loop
+              } //end cold outlet cells loop
                     
-  //  Info << "cold outlet NSCBC "<<numc<<" "<<p_aver/(1e-8+numc)<<" "<<M_max<<endl;
-  //  Info << "cold outlet mass flow rate "<< mfrc <<endl;
+              Info << "cold outlet NSCBC "<< p_aver<<" "<<num<<" "<<M_max<<endl;
               
-   } //end cold outlet NSCBC type treatment
+           } //end cold outlet NSCBC type treatment
             
     /* rhoU.boundaryFieldRef()[ipatch] = rho.boundaryField()[ipatch]*U.boundaryField()[ipatch];
        rhoE.boundaryFieldRef()[ipatch] = rho.boundaryField()[ipatch]*
@@ -412,17 +403,8 @@ forAll (mesh.boundaryMesh(),ipatch)
           } //end cold outlet zeroExtrapolation type treatment
        } //end cold outlet BC update
 
-       if ( (BCName == "inlet") or  
-            (BCName == "inlet1") or 
-            (BCName == "inlet2") or 
-            (BCName == "inlet3") or 
-            (BCName == "inlet4") or  
-            (BCName == "inlet5") or
-            (BCName == "inlet6") )
+       if ( BCName == "inlet" )
        {
-         
-        //  mfrik = fabs( mfrik + gSum(phi.boundaryField()[ipatch]) ); //mass flow rate on inletk
-
           if ( BCTypePhysical == "NSCBC" ) 
 	  {
               forAll ( bfaceCells , iface ) 
@@ -439,13 +421,13 @@ forAll (mesh.boundaryMesh(),ipatch)
                  rhoU.boundaryFieldRef()[ipatch][iface]  = rho_inlet * U[bcCell];
                  rhoE.boundaryFieldRef()[ipatch][iface]  = rho_inlet * ( e_inlet+e_ref+0.5*magSqr(U[bcCell]) );
 
+                 num2 = 1 + num2;
+
               } //end inlet cells
-           }
-      
+              
+              Info << "inlet  " << num2 << endl;
+              // num2 = 0;
+           }      
        }
-
-     //  mfri = mfri + mfrik;
-
-     //  Info << "inlet mass flow rate "<< mfri <<endl;
        
 }
