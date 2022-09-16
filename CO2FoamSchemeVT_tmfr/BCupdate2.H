@@ -88,7 +88,6 @@ forAll (mesh.boundaryMesh(),ipatch)
                  scalar M_i      = mag(U[bcCell])/c[bcCell];
                  p_aver          = p_i + p_aver;
                  num             = 1.0 + num;
-
               /* scalar cbc      = c.boundaryFieldRef()[ipatch][iface];
                  scalar mbc      = mag(U.boundaryFieldRef()[ipatch][iface])/cbc;
                  scalar p_i      = p[adj1_x];
@@ -165,7 +164,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                      T.boundaryFieldRef()[ipatch][iface]     = T[bcCell];
 
                      rhoU.boundaryFieldRef()[ipatch][iface]  = rho[bcCell] * U[bcCell];
-                     rhoE.boundaryFieldRef()[ipatch][iface]  = rho[bcCell] * (e[bcCell]+0.5*magSqr(U[bcCell]));               
+                     rhoE.boundaryFieldRef()[ipatch][iface]  = rho[bcCell] * (e[bcCell]+0.5*magSqr(U[bcCell]));     */          
                   /* rho[bcCell]   =  rho[adj1_x];
                      U[bcCell]     =  U[adj1_x];
                      e[bcCell]     =  e[adj1_x];
@@ -177,7 +176,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                     
               Info << "hot outlet NSCBC "<< p_aver<<" "<<num<<" "<<M_max<<endl;
               
-           } //end hot outlet NSCBC type treatment
+           } //end hot outlet NSCBC type treatment*/
             
     /* rhoU.boundaryFieldRef()[ipatch] = rho.boundaryField()[ipatch]*U.boundaryField()[ipatch];
        rhoE.boundaryFieldRef()[ipatch] = rho.boundaryField()[ipatch]*
@@ -274,7 +273,6 @@ forAll (mesh.boundaryMesh(),ipatch)
                  scalar M_i      = mag(U[bcCell])/c[bcCell];
                  p_aver          = p_i + p_aver;
                  num             = 1.0 + num;
-
               /* scalar cbc      = c.boundaryFieldRef()[ipatch][iface];
                  scalar mbc      = mag(U.boundaryFieldRef()[ipatch][iface])/cbc;
                  scalar p_i      = p[adj1_x];
@@ -351,7 +349,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                      T.boundaryFieldRef()[ipatch][iface]     = T[bcCell];
 
                      rhoU.boundaryFieldRef()[ipatch][iface]  = rho[bcCell] * U[bcCell];
-                     rhoE.boundaryFieldRef()[ipatch][iface]  = rho[bcCell] * (e[bcCell]+0.5*magSqr(U[bcCell]));               
+                     rhoE.boundaryFieldRef()[ipatch][iface]  = rho[bcCell] * (e[bcCell]+0.5*magSqr(U[bcCell]));     */          
                   /* rho[bcCell]   =  rho[adj1_x];
                      U[bcCell]     =  U[adj1_x];
                      e[bcCell]     =  e[adj1_x];
@@ -363,7 +361,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                     
               Info << "cold outlet NSCBC "<< p_aver<<" "<<num<<" "<<M_max<<endl;
               
-           } //end cold outlet NSCBC type treatment
+           } //end cold outlet NSCBC type treatment*/
             
     /* rhoU.boundaryFieldRef()[ipatch] = rho.boundaryField()[ipatch]*U.boundaryField()[ipatch];
        rhoE.boundaryFieldRef()[ipatch] = rho.boundaryField()[ipatch]*
@@ -421,7 +419,7 @@ forAll (mesh.boundaryMesh(),ipatch)
                  rhoU.boundaryFieldRef()[ipatch][iface]  = rho_inlet * U[bcCell];
                  rhoE.boundaryFieldRef()[ipatch][iface]  = rho_inlet * ( e_inlet+e_ref+0.5*magSqr(U[bcCell]) );
 
-                 num2 = 1 + num2;
+                 //num2 = 1 + num2;
 
               } //end inlet cells
               

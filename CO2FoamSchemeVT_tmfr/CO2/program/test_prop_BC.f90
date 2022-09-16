@@ -26,10 +26,10 @@ PROGRAM test_pressure
 ! TEST 1 pressure, e, cv, cp, c, s, helmholtz
 !     v = 0.00124937  ! corresponding to 1 MPa (Table 35, page 1568)
 !      v = 1_pr/ 801.62_pr
-     T_in = 336.d0
+     T_in = 290.d0
      p_in = 8.d6
 !     eguess = -262219.0
-     eguess_in = 1.0/185 !524.06 See SW article table to estimate e_guess <-> rho
+     eguess_in = 1.0/600.d0 !524.06 See SW article table to estimate e_guess <-> rho
 !!!      CALL property (T,v,p,e,cv,cp,s,c)
 !!!      helmho1 = Helmholtz(v,T)
  !    T1= 42+273.15

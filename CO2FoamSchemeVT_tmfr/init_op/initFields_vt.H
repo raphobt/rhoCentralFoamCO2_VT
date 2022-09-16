@@ -29,8 +29,8 @@ int    flag;
 double vis;
 const double e_ref=5.0e5; //avoir energie interne positive
 scalar initial_time;
-//scalar M_max_h = 0.0;
-//scalar M_max_c = 0.0;
+scalar M_max_h = 0.0;
+scalar M_max_c = 0.0;
 initial_time = runTime.time().value();
 //Info <<" time= " <<runTime.timeName()<<endl;
 //Info <<" time= " <<initial_time<<endl;

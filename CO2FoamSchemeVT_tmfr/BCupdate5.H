@@ -1,5 +1,5 @@
 #include <cmath>
-Info<< "\nUpdating inlet/outlet conditions" << endl;
+Info<< "\nUpdating inlet conditions" << endl;
 rho.correctBoundaryConditions();
 U.correctBoundaryConditions();
 e.correctBoundaryConditions();
@@ -19,11 +19,12 @@ scalar dp_dv_u, dp_du_v;
 //
 label     adj1_x=0;//,adj2_x=0;
 scalar dt = runTime.deltaTValue();
-scalar p_averc=0, p_averh=0, numc=0, numh=0, rho_averh=0.0, rho_averc=0.0;
-scalar T_averc=0, T_averh=0; 
+scalar p_averc=0, p_averh=0, numc=0, numh=0;//, rho_averh=0.0, rho_averc=0.0;
+//scalar T_averc=0, T_averh=0; 
 //
 //
 //
+/*
 // Patch identification
 label inletPatchID = mesh.boundaryMesh().findPatchID("inlet");
 label coldOutletPatchID = mesh.boundaryMesh().findPatchID("coldOutlet");
@@ -39,7 +40,7 @@ mfrc_tar = muc_tar*mfri;
 muc      = mfrc/(mfri+1e-8);
 areah    = gSum(mesh.magSf().boundaryField()[hotOutletPatchID]);
 areac    = gSum(mesh.magSf().boundaryField()[coldOutletPatchID]);
-
+*/
 forAll (mesh.boundaryMesh(),ipatch) 
 {
        word BCTypePhysical = mesh.boundaryMesh().physicalTypes()[ipatch];
@@ -106,8 +107,8 @@ forAll (mesh.boundaryMesh(),ipatch)
                  scalar rhoE_i   = rhoE[bcCell];
                  scalar M_i      = mag(U[bcCell])/c[bcCell];
                  p_averh         = p_i + p_averh;
-                 T_averh         = T_i + T_averh;
-                 rho_averh       = rho_i + rho_averh;
+               //  T_averh         = T_i + T_averh;
+               //  rho_averh       = rho_i + rho_averh;
                  numh            = 1.0 + numh;
                  
               /* scalar cbc      = c.boundaryFieldRef()[ipatch][iface];
@@ -236,7 +237,7 @@ forAll (mesh.boundaryMesh(),ipatch)
              } //end hot outlet cells loop
           } //end hot outlet zeroExtrapolation type treatment
        
-
+/*
 if (fabs(1-fabs(muc/(1e-8+muc_tar))) > 0.05)
 {
    Info<< "\n---> Adjusting hot pressure to match target cold mass fraction" << endl;
@@ -256,7 +257,7 @@ else
 {
    Info<< "\nTarget muc is matched within 5 %" << endl;
 }
-
+*/
 
 } //end hot outlet BC update
        
@@ -317,8 +318,8 @@ else
                  scalar rhoE_i   = rhoE[bcCell];
                  scalar M_i      = mag(U[bcCell])/c[bcCell];
                  p_averc         = p_i + p_averc;
-                 T_averc         = T_i + T_averc;
-                 rho_averc       = rho_i + rho_averc;
+               //  T_averc         = T_i + T_averc;
+               //  rho_averc       = rho_i + rho_averc;
                  numc            = 1.0 + numc;
                  
               /* scalar cbc      = c.boundaryFieldRef()[ipatch][iface];
@@ -446,7 +447,7 @@ else
              } //end cold outlet cells loop
           } //end cold outlet zeroExtrapolation type treatment
 
-
+/*
 if (fabs(1-fabs(muc/(1e-8+muc_tar))) > 0.05)
 {
    Info<< "\n---> Adjusting cold pressure to match target cold mass fraction" << endl;
@@ -466,29 +467,41 @@ else
 {
    Info<< "\nTarget muc is matched within 5 %" << endl;
 }
-
+*/
        } //end cold outlet BC update
-
-          if ( BCTypePhysical == "NSCBC_inlet" ) 
+       
+       if ( BCName == "inlet" )
+       {
+          if ( BCTypePhysical == "NSCBC" ) 
 	  {
               forAll ( bfaceCells , iface ) 
 	      {
                  //Info<< bfaceCells << " iface= "<< iface << endl;             
+                 
                  label bcCell = bfaceCells[iface];
 
                  rho.boundaryFieldRef()[ipatch][iface]   = rho_inlet;
                  e.boundaryFieldRef()[ipatch][iface]     = e_inlet + e_ref;
-                 U.boundaryFieldRef()[ipatch][iface]     = U[bcCell];
+                 U.boundaryFieldRef()[ipatch][iface]     = U[bcCell-1];
                  T.boundaryFieldRef()[ipatch][iface]     = T_inlet;
                  p.boundaryFieldRef()[ipatch][iface]     = p_inlet;
 
-                 rhoU.boundaryFieldRef()[ipatch][iface]  = rho_inlet * U[bcCell];
-                 rhoE.boundaryFieldRef()[ipatch][iface]  = rho_inlet * ( e_inlet+e_ref+0.5*magSqr(U[bcCell]) );
+                 rhoU.boundaryFieldRef()[ipatch][iface]  = rho_inlet * U[bcCell-1];
+                 rhoE.boundaryFieldRef()[ipatch][iface]  = rho_inlet * ( e_inlet+e_ref+0.5*magSqr(U[bcCell-1]) );
+
+              // Info << "rhoIN " << rho.boundaryFieldRef()[ipatch][iface] << endl;
+              // Info << "eIN " << e.boundaryFieldRef()[ipatch][iface] << endl;
+              // Info << "UIN " << U.boundaryFieldRef()[ipatch][iface] << endl;
+              // Info << "TIN " << T.boundaryFieldRef()[ipatch][iface] << endl;
+              // Info << "pIN " << p.boundaryFieldRef()[ipatch][iface] << endl;
 
               } //end inlet cells
-           }
-}
+              
+           }      
+       }
 
+}
+/*
 // Target mass flow rate match
 
 Info << "\nmfrh_tar 0.0032<-> "<< mfrh_tar << endl;
@@ -512,3 +525,4 @@ Info << " " << endl;
 Info << "out/in mass fraction "<< (mfrc+mfrh)/(mfri+1e-8) << endl;
 Info << "cold mass fraction "<< mfrc/(mfri+1e-8) << endl;
 Info << " " << endl;
+*/

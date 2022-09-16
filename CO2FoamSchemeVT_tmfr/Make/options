@@ -19,7 +19,7 @@ EXE_LIBS = \
     -lcompressibleTransportModels \
     -lturbulenceModels_co2 \
     -lcompressibleTurbulenceModels_co2 \
-    -L$(WM_PROJECT_USER_DIR)/../src/CO2FoamSchemeVT/CO2 \
+    -L$(WM_PROJECT_USER_DIR)/../src/CO2FoamSchemeVT_tmfr/CO2 \
     -lgfortran \
     -lopenblas \
     -lco2lib 

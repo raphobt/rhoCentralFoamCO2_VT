@@ -1,3 +1,4 @@
 rhoCentralFoam_CO2.C
 
-EXE = $(FOAM_USER_APPBIN)/CO2FoamVortexTube_tmfr
+EXE = $(FOAM_USER_APPBIN)/CO2FoamVortexTube_tmfr_nscbc
+

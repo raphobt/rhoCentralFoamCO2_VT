@@ -21,4 +21,4 @@ gfortran ../Grid.f90                   -g -O0 -c
 gfortran ../interp_functions.f90       -g -O0 -c
 gfortran ../var_const.f90           -g -O0 -c
 gfortran ../Interp_table.f90           -g -O0 -c
-gfortran write.f90              *.o   -g -O0      -Wall -Wextra    -lopenblas
+gfortran write.f90 write_cells.f90     *.o   -g -O0      -Wall -Wextra    -lopenblas

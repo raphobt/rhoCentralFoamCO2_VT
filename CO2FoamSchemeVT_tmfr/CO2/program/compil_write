@@ -13,13 +13,12 @@ gfortran ../grid_construction_LL.f90   -g -O0 -c
 gfortran ../grid_construction_LH.f90   -g -O0 -c
 gfortran ../grid_construction_R.f90    -g -O0 -c
 gfortran ../grid_construction_HT.f90   -g -O0 -c
-gfortran ../grid_construction_TPL.f90   -g -O0 -c
-gfortran ../grid_construction_TPM.f90   -g -O0 -c
 gfortran ../grid_construction_TPH.f90   -g -O0 -c
+gfortran ../grid_construction_TPM.f90   -g -O0 -c
+gfortran ../grid_construction_TPL.f90   -g -O0 -c
 gfortran ../saturation_curve.f90       -g -O0 -c
 gfortran ../Grid.f90                   -g -O0 -c
 gfortran ../interp_functions.f90       -g -O0 -c
-gfortran ../var_const.f90             -g -O0 -c
+gfortran ../var_const.f90           -g -O0 -c
 gfortran ../Interp_table.f90           -g -O0 -c
-gfortran ../solver_eos.f90           -g -O0 -c
-gfortran  test_prop_BC0.f90              *.o   -g -O0      -Wall -Wextra    -lopenblas 
+gfortran  write_cells.f90     *.o   -g -O0      -Wall -Wextra    -lopenblas

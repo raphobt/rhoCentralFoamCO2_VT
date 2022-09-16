@@ -111,6 +111,24 @@ ENDDO
  CLOSE(UNIT = 22)
 !STOP
 
+! Save T = Tsat(Psat) 
+OPEN (UNIT = 22,             FILE = 'tsatOfpsat.txt', &
+&   FORM = 'formatted',     ACTION = 'write',   &
+&   STATUS = 'replace')
+!
+DO i = 1, NNN_sat_LL-1 ! avoid critical point
+      WRITE(22,*) PsatLL(i), TsatLL(i) 
+ENDDO
+DO i = 2, NNN_sat_LH ! avoid critical point
+      WRITE(22,*) PsatLH(i), TsatLH(i) 
+ENDDO
+DO i = 1, NNN_sat_R
+     WRITE(22,*) PsatR(i),  TsatR(i)
+ENDDO
+
+ CLOSE(UNIT = 22)
+
+
 ! Save e, v, p, t, c
     OPEN (UNIT = 42,             FILE   = 'LH_p_T_c.txt', &
      &   FORM    = 'formatted',    ACTION = 'write',   &

@@ -48,7 +48,12 @@ REAL(8), DIMENSION(NNN_sat_LL) :: T_liq_meta, v_liq_meta, y_mesh_sat_LL, T_sat_s
 !e = -427.18 - -290.004  (kj/kg) p = 0
       T_guess_sat = 263.0
       v_guess_sat = 1.1e-3_pr
- DO i = 1, 172
+
+OPEN (UNIT = 22,             FILE = 'spinodal_LL.txt', &
+&   FORM = 'formatted',     ACTION = 'write',   &
+&   STATUS = 'replace')
+
+DO i = 1, 172
     CALL New_Rap2D(4, T_liq_meta(i), v_liq_meta(i), &
               & resnorm, Niter, exitflag, y_mesh_sat_LL(i),in_2,&
               & T_guess_sat,v_guess_sat)
@@ -61,17 +66,21 @@ REAL(8), DIMENSION(NNN_sat_LL) :: T_liq_meta, v_liq_meta, y_mesh_sat_LL, T_sat_s
       T_guess_sat = T_liq_meta(i)
       v_guess_sat = v_liq_meta(i)+0.1e-4_pr
       CALL pressure(T_liq_meta(i),v_liq_meta(i), press)
+   
    PRINT*, i, T_liq_meta(i), v_liq_meta(i), y_mesh_sat_LL(i), press
+   
+   WRITE(22,*) T_liq_meta(i), v_liq_meta(i), y_mesh_sat_LL(i), press 
 
-    T_liq_meta(i) = T_sat_sat(i)
-    v_liq_meta(i) = v_Lsat_LL(i)
+   T_liq_meta(i) = T_sat_sat(i)
+   v_liq_meta(i) = v_Lsat_LL(i)
  ENDDO
 
 
 !e = -290.004 - -201.476 (kj/kg) dp/dv_T = 0
       T_guess_sat = 275.0
       v_guess_sat = v_tri_L + 1e-4_pr
- DO i = 173, 284
+
+DO i = 173, 284
 !
         CALL New_Rap2D(3, T_liq_meta(i), v_liq_meta(i), &
               & resnorm, Niter, exitflag, y_mesh_sat_LL(i),in_2,&
@@ -94,33 +103,25 @@ REAL(8), DIMENSION(NNN_sat_LL) :: T_liq_meta, v_liq_meta, y_mesh_sat_LL, T_sat_s
   
    ENDIF
       CALL pressure(T_liq_meta(i),v_liq_meta(i), press)
+   
    PRINT*, i, T_liq_meta(i), v_liq_meta(i), y_mesh_sat_LL(i), press
- ENDDO
+   
+   WRITE(22,*) T_liq_meta(i), v_liq_meta(i), y_mesh_sat_LL(i), press 
+ENDDO
 
 
 !e = -201.476 - -190.3 (kj/kg) saturation line
-   DO i = 285, NNN_sat_LL
+ DO i = 285, NNN_sat_LL
       T_liq_meta(i) = T_sat_sat(i)
       v_liq_meta(i) = v_Lsat_LL(i)
       PRINT*, i, T_liq_meta(i), v_liq_meta(i), y_mesh_sat_LL(i), press
+      !WRITE(22,*) T_liq_meta(i), v_liq_meta(i), y_mesh_sat_LL(i), press 
  ENDDO
 !   v_liq_meta(NNN_sat_LL)  = 1_pr/rho_cr
 
 !print*, 'start p_max spline'
 ! P_max
 
-PRINT*, ' '
-PRINT*, 'To put in write.f90 to plot in (e,v) or other (python) along with sat curve!'
-PRINT*, ' '
-
-!OPEN (UNIT = 22,             FILE = 'spinodal.txt', &
-!&   FORM = 'formatted',     ACTION = 'write',   &
-!&   STATUS = 'replace')
-
-!DO i = 1, N
-!     WRITE(22,*) 
-!ENDDO
- 
-!CLOSE(UNIT = 22)
+CLOSE(UNIT = 22)
 
 END PROGRAM spinodal
